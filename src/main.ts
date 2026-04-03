@@ -1,3 +1,4 @@
+#!/usr/bin/env -S deno run --allow-read --allow-run --allow-env
 import process from "node:process";
 import { parseArgs } from "node:util";
 import { listTextFiles } from "./files.ts";
