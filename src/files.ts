@@ -1,5 +1,9 @@
 import { resolve } from "node:path";
 import { open } from "node:fs/promises";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
 
 /** List tracked files in a git repository, with optional filtering. */
 export async function listFiles(
@@ -18,16 +22,16 @@ export async function listFiles(
     args.push("--cached", "--others", "--exclude-standard");
   }
 
-  const command = new Deno.Command("git", { args, cwd, stdout: "piped", stderr: "piped" });
-  const { code, stdout, stderr } = await command.output();
-
-  if (code !== 0) {
-    const msg = new TextDecoder().decode(stderr).trim();
+  let stdout: string;
+  try {
+    const result = await execFileAsync("git", args, { cwd });
+    stdout = result.stdout;
+  } catch (e: unknown) {
+    const msg = (e as { stderr?: string }).stderr?.trim() ?? String(e);
     throw new Error(`Not a git repository or git error: ${msg}`);
   }
 
-  let files = new TextDecoder()
-    .decode(stdout)
+  let files = stdout
     .trim()
     .split("\n")
     .filter((f) => f.length > 0);
