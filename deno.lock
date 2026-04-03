@@ -2,8 +2,8 @@
   "version": "5",
   "specifiers": {
     "jsr:@std/assert@*": "1.0.19",
+    "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.12",
-    "npm:@types/node@22": "22.19.15",
     "npm:tiktoken@1": "1.0.22"
   },
   "jsr": {
@@ -32,9 +32,12 @@
     }
   },
   "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@1"
+    ],
     "packageJson": {
       "dependencies": [
-        "npm:@types/node@22",
+        "npm:@types/node@25",
         "npm:tiktoken@1"
       ]
     }
