@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { globSync } from "node:fs";
 import { open } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
@@ -38,12 +39,10 @@ export async function listFiles(
 
   // Apply exclude patterns
   if (options.exclude && options.exclude.length > 0) {
-    const patterns = options.exclude.map((g) =>
-      new URLPattern({ pathname: g })
+    const excluded = new Set(
+      options.exclude.flatMap((g) => globSync(g, { cwd })),
     );
-    files = files.filter(
-      (f) => !patterns.some((p) => p.test({ pathname: f })),
-    );
+    files = files.filter((f) => !excluded.has(f));
   }
 
   return files;
