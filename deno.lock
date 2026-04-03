@@ -2,6 +2,8 @@
   "version": "5",
   "specifiers": {
     "npm:@types/node@25": "25.5.0",
+    "npm:@types/picomatch@^4.0.3": "4.0.3",
+    "npm:picomatch@^4.0.4": "4.0.4",
     "npm:string-dedent@3": "3.0.2",
     "npm:tiktoken@1": "1.0.22",
     "npm:vitest@3": "3.2.4_@types+node@25.5.0"
@@ -283,6 +285,9 @@
       "dependencies": [
         "undici-types"
       ]
+    },
+    "@types/picomatch@4.0.3": {
+      "integrity": "sha512-iG0T6+nYJ9FAPmx9SsUlnwcq1ZVRuCXcVEvWnntoPlrOpwtSTKNDC9uVAxTsC3PUvJ+99n4RpAcNgBbHX3JSnQ=="
     },
     "@vitest/expect@3.2.4": {
       "integrity": "sha512-Io0yyORnB6sikFlt8QW5K7slY4OjqNX9jmJQ02QDda8lyM6B5oNgVWoSoKPac8/kgnCUzuHQKrSLtu/uOqqrig==",
@@ -628,6 +633,8 @@
     "packageJson": {
       "dependencies": [
         "npm:@types/node@25",
+        "npm:@types/picomatch@^4.0.3",
+        "npm:picomatch@^4.0.4",
         "npm:string-dedent@3",
         "npm:tiktoken@1",
         "npm:vitest@3"

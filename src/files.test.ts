@@ -26,6 +26,12 @@ describe("listFiles", () => {
     expect(files.some((f) => f.endsWith(".ts"))).toBe(false);
     expect(files).toContain("deno.json");
   });
+
+  it("excludes a directory by plain name", async () => {
+    const files = await listFiles(".", { exclude: ["src"] });
+    expect(files.some((f) => f.startsWith("src/"))).toBe(false);
+    expect(files).toContain("deno.json");
+  });
 });
 
 describe("isBinary", () => {

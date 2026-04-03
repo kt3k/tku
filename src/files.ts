@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { open } from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import picomatch from "picomatch";
 
 const execFileAsync = promisify(execFile);
 
@@ -38,12 +39,13 @@ export async function listFiles(
 
   // Apply exclude patterns
   if (options.exclude && options.exclude.length > 0) {
-    const patterns = options.exclude.map((g) =>
-      new URLPattern({ pathname: g })
+    // If a pattern looks like a plain name (no glob chars or slashes),
+    // also match it as a directory prefix (e.g. "static" -> "static/**").
+    const expanded = options.exclude.flatMap((g) =>
+      /[*?{[/]/.test(g) ? [g] : [g, `${g}/**`]
     );
-    files = files.filter(
-      (f) => !patterns.some((p) => p.test({ pathname: f })),
-    );
+    const isExcluded = picomatch(expanded);
+    files = files.filter((f) => !isExcluded(f));
   }
 
   return files;
