@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "deno bundle --external tiktoken --external picomatch -o dist/main.js src/main.ts && chmod +x dist/main.js",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "test": "vitest run"
   },
   "keywords": [],
