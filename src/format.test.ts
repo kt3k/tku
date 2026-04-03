@@ -20,13 +20,13 @@ describe("formatTokenCount", () => {
   });
 
   it("formats thousands with K suffix", () => {
-    expect(formatTokenCount(1000)).toBe("1 K");
+    expect(formatTokenCount(1000)).toBe("1.0 K");
     expect(formatTokenCount(1200)).toBe("1.2 K");
     expect(formatTokenCount(2441)).toBe("2.4 K");
   });
 
   it("formats millions with M suffix", () => {
-    expect(formatTokenCount(1000000)).toBe("1 M");
+    expect(formatTokenCount(1000000)).toBe("1.0 M");
     expect(formatTokenCount(1500000)).toBe("1.5 M");
   });
 });

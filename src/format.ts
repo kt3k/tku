@@ -9,12 +9,10 @@ export interface FormatOptions {
 /** Format a token count as a compact string (e.g. "1.2 K", "345", "1.5 M"). */
 export function formatTokenCount(n: number): string {
   if (n >= 1_000_000) {
-    const v = n / 1_000_000;
-    return v % 1 === 0 ? `${v} M` : `${v.toFixed(1)} M`;
+    return `${(n / 1_000_000).toFixed(1)} M`;
   }
   if (n >= 1_000) {
-    const v = n / 1_000;
-    return v % 1 === 0 ? `${v} K` : `${v.toFixed(1)} K`;
+    return `${(n / 1_000).toFixed(1)} K`;
   }
   return String(n);
 }
