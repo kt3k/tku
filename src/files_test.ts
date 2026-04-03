@@ -38,7 +38,7 @@ Deno.test("isBinary detects binary files", async () => {
   }
 });
 
-Deno.test("listTextFiles excludes binary files", async () => {
+Deno.test("listTextFiles", async () => {
   const files = await listTextFiles(".");
   assert(files.includes("deno.json"));
   // All returned files should be text
