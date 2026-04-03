@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "run": "deno run --allow-read --allow-run --allow-env src/main.ts"
   },
   "keywords": [],
   "author": "Yoshiya Hinosawa",

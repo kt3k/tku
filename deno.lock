@@ -625,9 +625,6 @@
     }
   },
   "workspace": {
-    "dependencies": [
-      "npm:vitest@3"
-    ],
     "packageJson": {
       "dependencies": [
         "npm:@types/node@25",
