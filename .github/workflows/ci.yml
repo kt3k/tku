@@ -7,16 +7,16 @@ on:
     branches: [main]
 
 jobs:
-  check:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - uses: denoland/setup-deno@v2
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
       - run: deno install
       - run: deno fmt --check
       - run: deno lint
       - run: deno task test
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
       - run: npm test
