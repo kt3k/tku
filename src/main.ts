@@ -8,20 +8,20 @@ function printUsage() {
   console.log(`Usage: tku [options] [path]
 
 Options:
-  -m, --model <model>       Tiktoken encoding model (default: o200k_base)
-  -e, --exclude <glob...>   Glob patterns to exclude (repeatable)
-  --no-gitignore            Do not respect .gitignore rules
-  --json                    Output results as JSON
-  --top <n>                 Show only the top N files by token count
-  --sort <field>            Sort by "tokens" or "path" (default: tokens)
-  -h, --help                Show this help message`);
+      --encoding <encoding>   Tiktoken encoding (default: o200k_base)
+  -e, --exclude <glob...>     Glob patterns to exclude (repeatable)
+      --no-gitignore          Do not respect .gitignore rules
+      --json                  Output results as JSON
+      --top <n>               Show only the top N files by token count
+      --sort <field>          Sort by "tokens" or "path" (default: tokens)
+  -h, --help                  Show this help message`);
 }
 
 async function main() {
   const { values, positionals } = parseArgs({
     args: Deno.args,
     options: {
-      model: { type: "string", short: "m", default: "o200k_base" },
+      encoding: { type: "string", default: "o200k_base" },
       exclude: { type: "string", short: "e", multiple: true },
       gitignore: { type: "boolean", default: true },
       json: { type: "boolean", default: false },
@@ -38,7 +38,7 @@ async function main() {
   }
 
   const repoPath = positionals[0] ?? ".";
-  const encoding = values.model as TiktokenEncoding;
+  const encoding = values.encoding as TiktokenEncoding;
   const sort = values.sort as "tokens" | "path";
   const top = values.top !== undefined ? Number(values.top) : undefined;
 
