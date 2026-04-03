@@ -23,14 +23,14 @@ npx @kt3k/tku [options] [path]
 
 ### Options
 
-| Flag                        | Description                                          | Default              |
-| --------------------------- | ---------------------------------------------------- | -------------------- |
-| `-e, --encoding <encoding>` | Tiktoken encoding (e.g. `o200k_base`, `cl100k_base`) | `o200k_base`         |
-| `--exclude <glob...>`       | Additional glob patterns to exclude                  | none                 |
-| `--no-gitignore`            | Do not respect `.gitignore` rules                    | respect `.gitignore` |
-| `--json`                    | Output results as JSON                               | false                |
-| `--top <n>`                 | Show only the top N files by token count             | show all             |
-| `--sort <field>`            | Sort by `tokens` or `path`                           | `tokens`             |
+| Flag                      | Description                                          | Default              |
+| ------------------------- | ---------------------------------------------------- | -------------------- |
+| `--encoding <encoding>`   | Tiktoken encoding (e.g. `o200k_base`, `cl100k_base`) | `o200k_base`         |
+| `-e, --exclude <glob...>` | Additional glob patterns to exclude                  | none                 |
+| `--no-gitignore`          | Do not respect `.gitignore` rules                    | respect `.gitignore` |
+| `--json`                  | Output results as JSON                               | false                |
+| `--top <n>`               | Show only the top N files by token count             | show all             |
+| `--sort <field>`          | Sort by `tokens` or `path`                           | `tokens`             |
 
 ### Examples
 

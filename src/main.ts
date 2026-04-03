@@ -8,8 +8,8 @@ function printUsage() {
   console.log(`Usage: tku [options] [path]
 
 Options:
-  -e, --encoding <encoding>  Tiktoken encoding (default: o200k_base)
-  --exclude <glob...>        Glob patterns to exclude (repeatable)
+  --encoding <encoding>       Tiktoken encoding (default: o200k_base)
+  -e, --exclude <glob...>    Glob patterns to exclude (repeatable)
   --no-gitignore            Do not respect .gitignore rules
   --json                    Output results as JSON
   --top <n>                 Show only the top N files by token count
@@ -21,8 +21,8 @@ async function main() {
   const { values, positionals } = parseArgs({
     args: Deno.args,
     options: {
-      encoding: { type: "string", short: "e", default: "o200k_base" },
-      exclude: { type: "string", multiple: true },
+      encoding: { type: "string", default: "o200k_base" },
+      exclude: { type: "string", short: "e", multiple: true },
       gitignore: { type: "boolean", default: true },
       json: { type: "boolean", default: false },
       top: { type: "string" },
