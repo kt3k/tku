@@ -1,0 +1,1 @@
+- Commit messages follow conventional commits
