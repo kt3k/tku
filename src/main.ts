@@ -8,13 +8,13 @@ function printUsage() {
   console.log(`Usage: tku [options] [path]
 
 Options:
-  --encoding <encoding>       Tiktoken encoding (default: o200k_base)
-  -e, --exclude <glob...>    Glob patterns to exclude (repeatable)
-  --no-gitignore            Do not respect .gitignore rules
-  --json                    Output results as JSON
-  --top <n>                 Show only the top N files by token count
-  --sort <field>            Sort by "tokens" or "path" (default: tokens)
-  -h, --help                Show this help message`);
+      --encoding <encoding>   Tiktoken encoding (default: o200k_base)
+  -e, --exclude <glob...>     Glob patterns to exclude (repeatable)
+      --no-gitignore          Do not respect .gitignore rules
+      --json                  Output results as JSON
+      --top <n>               Show only the top N files by token count
+      --sort <field>          Sort by "tokens" or "path" (default: tokens)
+  -h, --help                  Show this help message`);
 }
 
 async function main() {
