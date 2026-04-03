@@ -7,7 +7,7 @@ import type { TiktokenEncoding } from "./tokenize.ts";
 import { formatResult } from "./format.ts";
 
 function printUsage() {
-  console.log(`Usage: tku [options] [path]
+  console.log(`Usage: npx @kt3k/tku [options] [path]
 
 Options:
       --encoding <encoding>   Tiktoken encoding (default: o200k_base)
