@@ -9,5 +9,11 @@
   "keywords": [],
   "author": "Yoshiya Hinosawa",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "tiktoken": "^1"
+  },
+  "devDependencies": {
+    "@types/node": "^22"
+  }
 }

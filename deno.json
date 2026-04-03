@@ -1,9 +1,5 @@
 {
   "tasks": {
     "start": "deno run --allow-read --allow-run src/main.ts"
-  },
-  "imports": {
-    "tiktoken": "npm:tiktoken@^1"
-  },
-  "nodeModulesDir": "auto"
+  }
 }
