@@ -12,8 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
       - run: deno install
       - run: deno fmt --check
       - run: deno lint
