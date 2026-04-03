@@ -76,13 +76,6 @@ tokens  path
 }
 ```
 
-## Behavior
+## License
 
-1. **File discovery** — List all tracked files via `git ls-files`. This
-   automatically respects `.gitignore` and excludes the `.git` directory.
-   Untracked files are not counted.
-2. **Binary detection** — Skip binary files (detected by null bytes in the first
-   8KB).
-3. **Tokenization** — Read each text file and encode it using tiktoken with the
-   specified model/encoding.
-4. **Aggregation** — Sum token counts and produce the output.
+MIT
