@@ -54,11 +54,11 @@ npx @kt3k/tku --exclude "**/*.test.*" --exclude "**/fixtures/**"
 
 ```
 tokens  path
- 1,204  src/index.ts
+ 1.2 K  src/index.ts
    892  src/utils.ts
    345  README.md
 ──────
- 2,441  total (3 files)
+ 2.4 K  total (3 files)
 ```
 
 ### JSON (`--json`)
