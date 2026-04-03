@@ -8,7 +8,7 @@ const cli = "src/main.ts";
 describe("cli", () => {
   it("prints help message with --help", async () => {
     const { stdout } = await execFileAsync("node", [cli, "--help"]);
-    expect(stdout).toContain("Usage: tku [options] [path]");
+    expect(stdout).toContain("Usage: npx @kt3k/tku [options] [path]");
     expect(stdout).toContain("--encoding");
     expect(stdout).toContain("--exclude");
     expect(stdout).toContain("--json");
