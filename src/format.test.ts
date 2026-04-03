@@ -33,17 +33,16 @@ describe("formatTokenCount", () => {
 
 describe("formatTable", () => {
   it("produces right-aligned table with header and total", () => {
-    const output = formatTable(sampleResult);
-    const lines = output.split("\n");
-    expect(lines[0]).toContain("tokens");
-    expect(lines[0]).toContain("path");
-    expect(lines[1]).toContain("1.2 K");
-    expect(lines[1]).toContain("src/index.ts");
-    expect(lines[2]).toContain("892");
-    expect(lines[3]).toContain("345");
-    expect(lines[4]).toContain("─");
-    expect(lines[5]).toContain("2.4 K");
-    expect(lines[5]).toContain("total (3 files)");
+    expect(formatTable(sampleResult)).toBe(
+      [
+        "tokens  path",
+        " 1.2 K  src/index.ts",
+        "   892  src/utils.ts",
+        "   345  README.md",
+        "────────",
+        " 2.4 K  total (3 files)",
+      ].join("\n"),
+    );
   });
 });
 
