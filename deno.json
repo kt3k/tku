@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-read --allow-run src/main.ts",
+    "start": "deno run --allow-read --allow-run --allow-env src/main.ts",
     "test": "deno run -A npm:vitest run"
   },
   "imports": {

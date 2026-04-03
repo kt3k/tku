@@ -1,4 +1,60 @@
-// tku — Git Repository Token Counter
-// Entry point (to be implemented)
+import { parseArgs } from "node:util";
+import { listTextFiles } from "./files.ts";
+import { tokenizeFiles } from "./tokenize.ts";
+import type { TiktokenEncoding } from "./tokenize.ts";
+import { formatResult } from "./format.ts";
 
-console.log("tku");
+function printUsage() {
+  console.log(`Usage: tku [options] [path]
+
+Options:
+  -m, --model <model>       Tiktoken encoding model (default: o200k_base)
+  -e, --exclude <glob...>   Glob patterns to exclude (repeatable)
+  --no-gitignore            Do not respect .gitignore rules
+  --json                    Output results as JSON
+  --top <n>                 Show only the top N files by token count
+  --sort <field>            Sort by "tokens" or "path" (default: tokens)
+  -h, --help                Show this help message`);
+}
+
+async function main() {
+  const { values, positionals } = parseArgs({
+    args: Deno.args,
+    options: {
+      model: { type: "string", short: "m", default: "o200k_base" },
+      exclude: { type: "string", short: "e", multiple: true },
+      gitignore: { type: "boolean", default: true },
+      json: { type: "boolean", default: false },
+      top: { type: "string" },
+      sort: { type: "string", default: "tokens" },
+      help: { type: "boolean", short: "h", default: false },
+    },
+    allowPositionals: true,
+  });
+
+  if (values.help) {
+    printUsage();
+    Deno.exit(0);
+  }
+
+  const repoPath = positionals[0] ?? ".";
+  const encoding = values.model as TiktokenEncoding;
+  const sort = values.sort as "tokens" | "path";
+  const top = values.top !== undefined ? Number(values.top) : undefined;
+
+  try {
+    const files = await listTextFiles(repoPath, {
+      exclude: values.exclude,
+      noGitignore: !values.gitignore,
+    });
+
+    const result = await tokenizeFiles(repoPath, files, encoding);
+    const output = formatResult(result, { json: values.json, top, sort });
+    console.log(output);
+  } catch (e: unknown) {
+    console.error(e instanceof Error ? e.message : String(e));
+    Deno.exit(1);
+  }
+}
+
+main();
