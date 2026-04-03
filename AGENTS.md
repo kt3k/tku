@@ -1,1 +1,2 @@
 - Commit messages follow conventional commits
+- When changes are made, execute `deno fmt` to format file, check `deno lint` to check errors
