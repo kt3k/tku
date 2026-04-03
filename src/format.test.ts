@@ -47,26 +47,35 @@ describe("formatTable", () => {
 
 describe("formatResult", () => {
   it("sorts by tokens descending by default", () => {
-    const output = formatResult(sampleResult);
-    const lines = output.split("\n");
-    expect(lines[1]).toContain("src/index.ts");
-    expect(lines[2]).toContain("src/utils.ts");
-    expect(lines[3]).toContain("README.md");
+    expect(formatResult(sampleResult)).toBe(dedent`
+      tokens  path
+       1.2 K  src/index.ts
+         892  src/utils.ts
+         345  README.md
+      ────────
+       2.4 K  total (3 files)
+    `);
   });
 
   it("sorts by path when specified", () => {
-    const output = formatResult(sampleResult, { sort: "path" });
-    const lines = output.split("\n");
-    expect(lines[1]).toContain("README.md");
-    expect(lines[2]).toContain("src/index.ts");
-    expect(lines[3]).toContain("src/utils.ts");
+    expect(formatResult(sampleResult, { sort: "path" })).toBe(dedent`
+      tokens  path
+         345  README.md
+       1.2 K  src/index.ts
+         892  src/utils.ts
+      ────────
+       2.4 K  total (3 files)
+    `);
   });
 
   it("limits to top N files", () => {
-    const output = formatResult(sampleResult, { top: 2 });
-    const lines = output.split("\n");
-    // header + 2 files + separator + total = 5 lines
-    expect(lines).toHaveLength(5);
+    expect(formatResult(sampleResult, { top: 2 })).toBe(dedent`
+      tokens  path
+       1.2 K  src/index.ts
+         892  src/utils.ts
+      ────────
+       2.4 K  total (3 files)
+    `);
   });
 
   it("outputs JSON when json option is set", () => {
