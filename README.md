@@ -2,7 +2,7 @@
 
 ## Overview
 
-`tku` is a CLI tool that counts the total number of tokens in a git repository.
+`@kt3k/tku` is a CLI tool that counts the total number of tokens in a git repository.
 It uses [tiktoken](https://www.npmjs.com/package/tiktoken) to tokenize file
 contents and reports the token count per file and in total.
 
