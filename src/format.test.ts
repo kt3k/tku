@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  formatJson,
-  formatResult,
-  formatTable,
-  formatTokenCount,
-} from "./format.ts";
+import { formatResult, formatTable, formatTokenCount } from "./format.ts";
 import type { TokenizeResult } from "./tokenize.ts";
 
 const sampleResult: TokenizeResult = {
@@ -49,17 +44,6 @@ describe("formatTable", () => {
     expect(lines[4]).toContain("─");
     expect(lines[5]).toContain("2.4 K");
     expect(lines[5]).toContain("total (3 files)");
-  });
-});
-
-describe("formatJson", () => {
-  it("produces valid JSON with expected fields", () => {
-    const output = formatJson(sampleResult);
-    const parsed = JSON.parse(output);
-    expect(parsed.encoding).toBe("o200k_base");
-    expect(parsed.files).toHaveLength(3);
-    expect(parsed.totalTokens).toBe(2441);
-    expect(parsed.totalFiles).toBe(3);
   });
 });
 

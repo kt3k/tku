@@ -19,20 +19,6 @@ export function formatTokenCount(n: number): string {
   return String(n);
 }
 
-/** Format tokenize result as JSON string. */
-export function formatJson(result: TokenizeResult): string {
-  return JSON.stringify(
-    {
-      encoding: result.encoding,
-      files: result.files,
-      totalTokens: result.totalTokens,
-      totalFiles: result.totalFiles,
-    },
-    null,
-    2,
-  );
-}
-
 /** Format tokenize result as a human-readable table. */
 export function formatTable(result: TokenizeResult): string {
   const lines: string[] = [];
@@ -81,5 +67,5 @@ export function formatResult(
     files: filtered,
   };
 
-  return json ? formatJson(adjusted) : formatTable(adjusted);
+  return json ? JSON.stringify(adjusted, null, 2) : formatTable(adjusted);
 }
