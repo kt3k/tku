@@ -68,11 +68,12 @@ describe("formatResult", () => {
     `);
   });
 
-  it("limits to top N files", () => {
+  it("limits to top N files and shows omitted count", () => {
     expect(formatResult(sampleResult, { top: 2 })).toBe(dedent`
       tokens  path
        1.2 K  src/index.ts
          892  src/utils.ts
+              ... 1 more files
       ────────
        2.4 K  total (3 files)
     `);

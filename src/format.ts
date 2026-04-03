@@ -18,7 +18,10 @@ export function formatTokenCount(n: number): string {
 }
 
 /** Format tokenize result as a human-readable table. */
-export function formatTable(result: TokenizeResult): string {
+export function formatTable(
+  result: TokenizeResult,
+  omitted = 0,
+): string {
   const lines: string[] = [];
   const formatted = result.files.map((f) => ({
     path: f.path,
@@ -32,6 +35,9 @@ export function formatTable(result: TokenizeResult): string {
   lines.push(`${"tokens".padStart(maxWidth)}  path`);
   for (const f of formatted) {
     lines.push(`${f.display.padStart(maxWidth)}  ${f.path}`);
+  }
+  if (omitted > 0) {
+    lines.push(`${"".padStart(maxWidth)}  ... ${omitted} more files`);
   }
   lines.push(`${"─".repeat(maxWidth)}──`);
   const totalDisplay = formatTokenCount(result.totalTokens);
@@ -59,11 +65,14 @@ export function formatResult(
 
   // Top N
   const filtered = top !== undefined ? sorted.slice(0, top) : sorted;
+  const omitted = sorted.length - filtered.length;
 
   const adjusted: TokenizeResult = {
     ...result,
     files: filtered,
   };
 
-  return json ? JSON.stringify(adjusted, null, 2) : formatTable(adjusted);
+  return json
+    ? JSON.stringify(adjusted, null, 2)
+    : formatTable(adjusted, omitted);
 }
