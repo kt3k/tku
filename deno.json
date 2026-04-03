@@ -1,5 +1,9 @@
 {
   "tasks": {
     "start": "deno run --allow-read --allow-run src/main.ts"
+  },
+  "imports": {
+    "tiktoken": "npm:tiktoken@^1",
+    "@std/assert": "jsr:@std/assert@^1"
   }
 }

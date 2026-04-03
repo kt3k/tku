@@ -1,7 +1,7 @@
-import { assertEquals, assert } from "jsr:@std/assert";
+import { assertEquals, assert } from "@std/assert";
 import { listFiles, listTextFiles, isBinary } from "./files.ts";
 import { resolve } from "node:path";
-import { writeFile, mkdir, rm } from "node:fs/promises";
+import { writeFile, rm } from "node:fs/promises";
 
 Deno.test("listFiles returns tracked files in current repo", async () => {
   const files = await listFiles(".");
