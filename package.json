@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "deno bundle --external tiktoken -o dist/main.js src/main.ts && chmod +x dist/main.js",
+    "build": "deno bundle --external tiktoken --external picomatch -o dist/main.js src/main.ts && chmod +x dist/main.js",
     "prepublishOnly": "npm run build",
     "test": "vitest run"
   },
@@ -19,10 +19,12 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "picomatch": "^4.0.4",
     "tiktoken": "^1"
   },
   "devDependencies": {
     "@types/node": "^25",
+    "@types/picomatch": "^4.0.3",
     "string-dedent": "^3",
     "vitest": "^3"
   }
