@@ -35,13 +35,18 @@ export async function tokenizeFiles(
   repoPath: string,
   files: string[],
   encoding: TiktokenEncoding,
+  options: {
+    onProgress?: (file: string, index: number, total: number) => void;
+  } = {},
 ): Promise<TokenizeResult> {
   const enc = get_encoding(encoding);
   try {
     const results: FileTokenCount[] = [];
     let totalTokens = 0;
 
-    for (const file of files) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      options.onProgress?.(file, i + 1, files.length);
       const fullPath = resolve(repoPath, file);
       const content = await readFile(fullPath, "utf-8");
       const tokens = enc.encode_ordinary(content).length;

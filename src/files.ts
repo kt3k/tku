@@ -73,13 +73,16 @@ export async function listTextFiles(
   options: {
     exclude?: string[];
     noGitignore?: boolean;
+    onProgress?: (file: string, index: number, total: number) => void;
   } = {},
 ): Promise<string[]> {
   const cwd = resolve(repoPath);
   const files = await listFiles(repoPath, options);
   const results: string[] = [];
 
-  for (const file of files) {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    options.onProgress?.(file, i + 1, files.length);
     const fullPath = resolve(cwd, file);
     try {
       if (!(await isBinary(fullPath))) {
