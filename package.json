@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "deno bundle --external tiktoken -o dist/main.js src/main.ts",
+    "build": "deno bundle --external tiktoken -o dist/main.js src/main.ts && chmod +x dist/main.js",
     "prepublishOnly": "npm run build",
     "test": "vitest run"
   },
