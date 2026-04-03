@@ -47,7 +47,9 @@ async function main() {
   const isTTY = process.stderr.isTTY;
   function status(msg: string) {
     if (isTTY) {
-      process.stderr.write(`\r\x1b[K${msg}`);
+      const cols = process.stderr.columns || 80;
+      const truncated = msg.length > cols ? msg.slice(0, cols) : msg;
+      process.stderr.write(`\r\x1b[K${truncated}`);
     }
   }
   function clearStatus() {
