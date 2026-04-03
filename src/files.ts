@@ -38,7 +38,9 @@ export async function listFiles(
 
   // Apply exclude patterns
   if (options.exclude && options.exclude.length > 0) {
-    const patterns = options.exclude.map((g) => new URLPattern({ pathname: g }));
+    const patterns = options.exclude.map((g) =>
+      new URLPattern({ pathname: g })
+    );
     files = files.filter(
       (f) => !patterns.some((p) => p.test({ pathname: f })),
     );

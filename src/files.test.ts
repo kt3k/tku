@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
-import { listFiles, listTextFiles, isBinary } from "./files.ts";
+import { describe, expect, it } from "vitest";
+import { isBinary, listFiles, listTextFiles } from "./files.ts";
 import { resolve } from "node:path";
-import { mkdtemp, writeFile, rm } from "node:fs/promises";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
