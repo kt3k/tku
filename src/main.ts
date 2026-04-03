@@ -1,3 +1,4 @@
+import process from "node:process";
 import { parseArgs } from "node:util";
 import { listTextFiles } from "./files.ts";
 import { tokenizeFiles } from "./tokenize.ts";
@@ -19,7 +20,7 @@ Options:
 
 async function main() {
   const { values, positionals } = parseArgs({
-    args: Deno.args,
+    args: process.argv.slice(2),
     options: {
       encoding: { type: "string", default: "o200k_base" },
       exclude: { type: "string", short: "e", multiple: true },
@@ -34,7 +35,7 @@ async function main() {
 
   if (values.help) {
     printUsage();
-    Deno.exit(0);
+    process.exit(0);
   }
 
   const repoPath = positionals[0] ?? ".";
@@ -53,7 +54,7 @@ async function main() {
     console.log(output);
   } catch (e: unknown) {
     console.error(e instanceof Error ? e.message : String(e));
-    Deno.exit(1);
+    process.exit(1);
   }
 }
 

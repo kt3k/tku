@@ -2,10 +2,17 @@
   "name": "@kt3k/tku",
   "version": "0.1.0",
   "description": "",
-  "main": "main.js",
+  "main": "dist/main.js",
+  "bin": {
+    "tku": "dist/main.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "vitest run",
-    "run": "deno run --allow-read --allow-run --allow-env src/main.ts"
+    "build": "deno bundle --external tiktoken -o dist/main.js src/main.ts",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "Yoshiya Hinosawa",
