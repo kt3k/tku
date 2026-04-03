@@ -2,9 +2,9 @@
 
 ## Overview
 
-`@kt3k/tku` is a CLI tool that counts the total number of tokens in a git repository.
-It uses [tiktoken](https://www.npmjs.com/package/tiktoken) to tokenize file
-contents and reports the token count per file and in total.
+`@kt3k/tku` is a CLI tool that counts the total number of tokens in a git
+repository. It uses [tiktoken](https://www.npmjs.com/package/tiktoken) to
+tokenize file contents and reports the token count per file and in total.
 
 ## Motivation
 
@@ -23,14 +23,14 @@ npx @kt3k/tku [options] [path]
 
 ### Options
 
-| Flag                      | Description                                           | Default              |
-| ------------------------- | ----------------------------------------------------- | -------------------- |
-| `-m, --model <model>`     | Tiktoken encoding model (e.g. `gpt-4o`, `o200k_base`) | `o200k_base`         |
-| `-e, --exclude <glob...>` | Additional glob patterns to exclude                   | none                 |
-| `--no-gitignore`          | Do not respect `.gitignore` rules                     | respect `.gitignore` |
-| `--json`                  | Output results as JSON                                | false                |
-| `--top <n>`               | Show only the top N files by token count              | show all             |
-| `--sort <field>`          | Sort by `tokens` or `path`                            | `tokens`             |
+| Flag                        | Description                                          | Default              |
+| --------------------------- | ---------------------------------------------------- | -------------------- |
+| `-e, --encoding <encoding>` | Tiktoken encoding (e.g. `o200k_base`, `cl100k_base`) | `o200k_base`         |
+| `--exclude <glob...>`       | Additional glob patterns to exclude                  | none                 |
+| `--no-gitignore`            | Do not respect `.gitignore` rules                    | respect `.gitignore` |
+| `--json`                    | Output results as JSON                               | false                |
+| `--top <n>`                 | Show only the top N files by token count             | show all             |
+| `--sort <field>`            | Sort by `tokens` or `path`                           | `tokens`             |
 
 ### Examples
 
@@ -38,8 +38,8 @@ npx @kt3k/tku [options] [path]
 # Count tokens in the current repo
 npx @kt3k/tku
 
-# Count tokens using gpt-4o encoding, show top 20 files
-npx @kt3k/tku --model gpt-4o --top 20
+# Count tokens using cl100k_base encoding, show top 20 files
+npx @kt3k/tku --encoding cl100k_base --top 20
 
 # JSON output for scripting
 npx @kt3k/tku --json
