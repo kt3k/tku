@@ -65,7 +65,7 @@ tokens  path
 
 ```json
 {
-  "model": "o200k_base",
+  "encoding": "o200k_base",
   "files": [
     { "path": "src/index.ts", "tokens": 1204 },
     { "path": "src/utils.ts", "tokens": 892 },

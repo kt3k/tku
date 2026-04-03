@@ -56,7 +56,7 @@ describe("formatJson", () => {
   it("produces valid JSON with expected fields", () => {
     const output = formatJson(sampleResult);
     const parsed = JSON.parse(output);
-    expect(parsed.model).toBe("o200k_base");
+    expect(parsed.encoding).toBe("o200k_base");
     expect(parsed.files).toHaveLength(3);
     expect(parsed.totalTokens).toBe(2441);
     expect(parsed.totalFiles).toBe(3);
@@ -90,6 +90,6 @@ describe("formatResult", () => {
   it("outputs JSON when json option is set", () => {
     const output = formatResult(sampleResult, { json: true });
     const parsed = JSON.parse(output);
-    expect(parsed.model).toBe("o200k_base");
+    expect(parsed.encoding).toBe("o200k_base");
   });
 });

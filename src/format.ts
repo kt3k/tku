@@ -23,7 +23,7 @@ export function formatTokenCount(n: number): string {
 export function formatJson(result: TokenizeResult): string {
   return JSON.stringify(
     {
-      model: result.encoding,
+      encoding: result.encoding,
       files: result.files,
       totalTokens: result.totalTokens,
       totalFiles: result.totalFiles,
