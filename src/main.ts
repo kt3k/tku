@@ -44,13 +44,33 @@ async function main() {
   const sort = values.sort as "tokens" | "path";
   const top = values.top !== undefined ? Number(values.top) : undefined;
 
+  const isTTY = process.stderr.isTTY;
+  function status(msg: string) {
+    if (isTTY) {
+      process.stderr.write(`\r\x1b[K${msg}`);
+    }
+  }
+  function clearStatus() {
+    if (isTTY) {
+      process.stderr.write("\r\x1b[K");
+    }
+  }
+
   try {
     const files = await listTextFiles(repoPath, {
       exclude: values.exclude,
       noGitignore: !values.gitignore,
+      onProgress: (file, i, total) =>
+        status(`Scanning [${i}/${total}] ${file}`),
     });
+    clearStatus();
 
-    const result = await tokenizeFiles(repoPath, files, encoding);
+    const result = await tokenizeFiles(repoPath, files, encoding, {
+      onProgress: (file, i, total) =>
+        status(`Tokenizing [${i}/${total}] ${file}`),
+    });
+    clearStatus();
+
     const output = formatResult(result, { json: values.json, top, sort });
     console.log(output);
   } catch (e: unknown) {
