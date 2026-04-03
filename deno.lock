@@ -2,6 +2,7 @@
   "version": "5",
   "specifiers": {
     "npm:@types/node@25": "25.5.0",
+    "npm:string-dedent@3": "3.0.2",
     "npm:tiktoken@1": "1.0.22",
     "npm:vitest@3": "3.2.4_@types+node@25.5.0"
   },
@@ -514,6 +515,9 @@
     "std-env@3.10.0": {
       "integrity": "sha512-5GS12FdOZNliM5mAOxFRg7Ir0pWz8MdpYm6AY6VPkGpbA7ZzmbzNcBJQ0GPvvyWgcY7QAhCgf9Uy89I03faLkg=="
     },
+    "string-dedent@3.0.2": {
+      "integrity": "sha512-M4q+HpHCtGXlbyzYDOcOo7V185dlq6YXvGUPcWZqL4vttCX9gFYoWIOxcPd7v5CAYcTJsGLs3ZJCAH2TXONF/g=="
+    },
     "strip-literal@3.1.0": {
       "integrity": "sha512-8r3mkIM/2+PpjHoOtiAW8Rg3jJLHaV7xPwG+YRGrv6FP0wwk/toTpATxWYOW0BKdWwl82VT2tFYi5DlROa0Mxg==",
       "dependencies": [
@@ -627,6 +631,7 @@
     "packageJson": {
       "dependencies": [
         "npm:@types/node@25",
+        "npm:string-dedent@3",
         "npm:tiktoken@1",
         "npm:vitest@3"
       ]

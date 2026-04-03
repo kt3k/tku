@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import dedent from "string-dedent";
 import { formatResult, formatTable, formatTokenCount } from "./format.ts";
 import type { TokenizeResult } from "./tokenize.ts";
 
@@ -33,16 +34,14 @@ describe("formatTokenCount", () => {
 
 describe("formatTable", () => {
   it("produces right-aligned table with header and total", () => {
-    expect(formatTable(sampleResult)).toBe(
-      [
-        "tokens  path",
-        " 1.2 K  src/index.ts",
-        "   892  src/utils.ts",
-        "   345  README.md",
-        "────────",
-        " 2.4 K  total (3 files)",
-      ].join("\n"),
-    );
+    expect(formatTable(sampleResult)).toBe(dedent`
+      tokens  path
+       1.2 K  src/index.ts
+         892  src/utils.ts
+         345  README.md
+      ────────
+       2.4 K  total (3 files)
+    `);
   });
 });
 
