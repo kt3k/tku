@@ -40,9 +40,11 @@ export async function listFiles(
   // Apply exclude patterns
   if (options.exclude && options.exclude.length > 0) {
     // If a pattern looks like a plain name (no glob chars or slashes),
-    // also match it as a directory prefix (e.g. "static" -> "static/**").
+    // also match it anywhere in the tree and as a directory prefix
+    // (e.g. "foo.txt" -> "foo.txt" + "**/foo.txt",
+    //  "static" -> "static" + "static/**" + "**/static" + "**/static/**").
     const expanded = options.exclude.flatMap((g) =>
-      /[*?{[/]/.test(g) ? [g] : [g, `${g}/**`]
+      /[*?{[/]/.test(g) ? [g] : [g, `${g}/**`, `**/${g}`, `**/${g}/**`]
     );
     const isExcluded = picomatch(expanded);
     files = files.filter((f) => !isExcluded(f));
