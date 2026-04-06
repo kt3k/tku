@@ -23,16 +23,16 @@ npx @kt3k/tku [options] [path]
 
 ### Options
 
-| Flag                      | Description                                          | Default              |
-| ------------------------- | ---------------------------------------------------- | -------------------- |
-| `--encoding <encoding>`   | Tiktoken encoding (e.g. `o200k_base`, `cl100k_base`) | `o200k_base`         |
-| `-e, --exclude <glob...>` | Additional glob patterns to exclude                  | none                 |
-| `--no-gitignore`          | Do not respect `.gitignore` rules                    | respect `.gitignore` |
-| `--json`                  | Output results as JSON                               | false                |
-| `--top <n>`               | Show only the top N files by token count             | show all             |
-| `--sort <field>`          | Sort by `tokens` or `path`                           | `tokens`             |
-| `-t, --tree`              | Display results as a directory tree (ignores `--top`, `--json`, `--sort`) | false |
-| `--dirs`                  | Summarize by directory. With `--tree`, shows only directories. Without `--tree`, shows a flat directory summary table. | false |
+| Flag                      | Description                                                                                                            | Default              |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| `--encoding <encoding>`   | Tiktoken encoding (e.g. `o200k_base`, `cl100k_base`)                                                                   | `o200k_base`         |
+| `-e, --exclude <glob...>` | Additional glob patterns to exclude                                                                                    | none                 |
+| `--no-gitignore`          | Do not respect `.gitignore` rules                                                                                      | respect `.gitignore` |
+| `--json`                  | Output results as JSON                                                                                                 | false                |
+| `--top <n>`               | Show only the top N files by token count                                                                               | show all             |
+| `--sort <field>`          | Sort by `tokens` or `path`                                                                                             | `tokens`             |
+| `-t, --tree`              | Display results as a directory tree (ignores `--top`, `--json`, `--sort`)                                              | false                |
+| `--dirs`                  | Summarize by directory. With `--tree`, shows only directories. Without `--tree`, shows a flat directory summary table. | false                |
 
 ### Examples
 
