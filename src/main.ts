@@ -18,6 +18,7 @@ Options:
       --sort <field>          Sort by "tokens" or "path" (default: tokens)
   -t, --tree                  Display results as a directory tree
                               (ignores --top, --json, --sort)
+      --dirs                  With --tree, show only directories
   -h, --help                  Show this help message`);
 }
 
@@ -32,6 +33,7 @@ async function main() {
       top: { type: "string" },
       sort: { type: "string", default: "tokens" },
       tree: { type: "boolean", short: "t", default: false },
+      dirs: { type: "boolean", default: false },
       help: { type: "boolean", short: "h", default: false },
     },
     allowPositionals: true,
@@ -81,6 +83,7 @@ async function main() {
       top,
       sort,
       tree: values.tree,
+      dirs: values.dirs,
     });
     console.log(output);
   } catch (e: unknown) {
