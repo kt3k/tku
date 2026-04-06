@@ -5,6 +5,7 @@ export interface FormatOptions {
   top?: number;
   sort?: "tokens" | "path";
   tree?: boolean;
+  dirs?: boolean;
 }
 
 /** Format a token count as a compact string (e.g. "1.2 K", "345", "1.5 M"). */
@@ -102,13 +103,18 @@ function buildTree(files: { path: string; tokens: number }[]): TreeNode {
 }
 
 /** Format tokenize result as a directory tree. */
-export function formatTree(result: TokenizeResult): string {
+export function formatTree(
+  result: TokenizeResult,
+  options: { dirs?: boolean } = {},
+): string {
   const tree = buildTree(result.files);
+  const dirsOnly = options.dirs ?? false;
   const lines: string[] = [];
 
   // Determine max width from all nodes
   const allTokens: number[] = [];
   function collectTokens(node: TreeNode): void {
+    if (dirsOnly && node.children.length === 0) return;
     allTokens.push(node.tokens);
     for (const child of node.children) collectTokens(child);
   }
@@ -131,12 +137,15 @@ export function formatTree(result: TokenizeResult): string {
       : node.name;
     lines.push(`${display.padStart(maxWidth)}  ${prefix}${connector}${name}`);
 
+    const visibleChildren = dirsOnly
+      ? node.children.filter((c) => c.children.length > 0)
+      : node.children;
     const childPrefix = isRoot ? "" : prefix + (isLast ? "    " : "│   ");
-    for (let i = 0; i < node.children.length; i++) {
+    for (let i = 0; i < visibleChildren.length; i++) {
       render(
-        node.children[i],
+        visibleChildren[i],
         childPrefix,
-        i === node.children.length - 1,
+        i === visibleChildren.length - 1,
         false,
       );
     }
@@ -153,11 +162,12 @@ export function formatResult(
   result: TokenizeResult,
   options: FormatOptions = {},
 ): string {
-  const { json = false, top, sort = "tokens", tree = false } = options;
+  const { json = false, top, sort = "tokens", tree = false, dirs = false } =
+    options;
 
   // --tree ignores --top, --json, --sort
   if (tree) {
-    return formatTree(result);
+    return formatTree(result, { dirs });
   }
 
   // Sort

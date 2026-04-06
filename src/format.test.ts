@@ -159,4 +159,47 @@ describe("formatTree", () => {
          100  └── README.md
     `);
   });
+
+  it("renders only directories with dirs option", () => {
+    expect(formatTree(sampleResult, { dirs: true })).toBe(dedent`
+      tokens  path
+       2.4 K  .
+       2.1 K  └── src/
+    `);
+  });
+
+  it("renders nested directories only with dirs option", () => {
+    const result: TokenizeResult = {
+      encoding: "o200k_base",
+      files: [
+        { path: "src/lib/util.ts", tokens: 500 },
+        { path: "src/main.ts", tokens: 300 },
+        { path: "README.md", tokens: 100 },
+      ],
+      totalTokens: 900,
+      totalFiles: 3,
+    };
+    expect(formatTree(result, { dirs: true })).toBe(dedent`
+      tokens  path
+         900  .
+         800  └── src/
+         500      └── lib/
+    `);
+  });
+
+  it("renders root only when all files are at root with dirs option", () => {
+    const result: TokenizeResult = {
+      encoding: "o200k_base",
+      files: [
+        { path: "a.ts", tokens: 100 },
+        { path: "b.ts", tokens: 200 },
+      ],
+      totalTokens: 300,
+      totalFiles: 2,
+    };
+    expect(formatTree(result, { dirs: true })).toBe(dedent`
+      tokens  path
+         300  .
+    `);
+  });
 });
