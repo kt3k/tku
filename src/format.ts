@@ -4,6 +4,7 @@ export interface FormatOptions {
   json?: boolean;
   top?: number;
   sort?: "tokens" | "path";
+  tree?: boolean;
 }
 
 /** Format a token count as a compact string (e.g. "1.2 K", "345", "1.5 M"). */
@@ -48,12 +49,116 @@ export function formatTable(
   return lines.join("\n");
 }
 
+interface TreeNode {
+  name: string;
+  tokens: number;
+  children: TreeNode[];
+}
+
+/** Build a directory tree from flat file list. */
+function buildTree(files: { path: string; tokens: number }[]): TreeNode {
+  const root: TreeNode = { name: ".", tokens: 0, children: [] };
+
+  for (const file of files) {
+    const parts = file.path.split("/");
+    let node = root;
+    for (let i = 0; i < parts.length; i++) {
+      const name = parts[i];
+      const isFile = i === parts.length - 1;
+      let child = node.children.find((c) => c.name === name);
+      if (!child) {
+        child = { name, tokens: 0, children: [] };
+        node.children.push(child);
+      }
+      if (isFile) {
+        child.tokens = file.tokens;
+      }
+      node = child;
+    }
+  }
+
+  // Aggregate directory tokens bottom-up
+  function aggregate(node: TreeNode): number {
+    if (node.children.length === 0) return node.tokens;
+    node.tokens = node.children.reduce((sum, c) => sum + aggregate(c), 0);
+    return node.tokens;
+  }
+  aggregate(root);
+
+  // Sort children: directories first (by tokens desc), then files (by tokens desc)
+  function sortChildren(node: TreeNode): void {
+    for (const child of node.children) sortChildren(child);
+    const dirs = node.children
+      .filter((c) => c.children.length > 0)
+      .sort((a, b) => b.tokens - a.tokens);
+    const leaves = node.children
+      .filter((c) => c.children.length === 0)
+      .sort((a, b) => b.tokens - a.tokens);
+    node.children = [...dirs, ...leaves];
+  }
+  sortChildren(root);
+
+  return root;
+}
+
+/** Format tokenize result as a directory tree. */
+export function formatTree(result: TokenizeResult): string {
+  const tree = buildTree(result.files);
+  const lines: string[] = [];
+
+  // Determine max width from all nodes
+  const allTokens: number[] = [];
+  function collectTokens(node: TreeNode): void {
+    allTokens.push(node.tokens);
+    for (const child of node.children) collectTokens(child);
+  }
+  collectTokens(tree);
+  const maxWidth = Math.max(
+    "tokens".length,
+    ...allTokens.map((t) => formatTokenCount(t).length),
+  );
+
+  function render(
+    node: TreeNode,
+    prefix: string,
+    isLast: boolean,
+    isRoot: boolean,
+  ): void {
+    const display = formatTokenCount(node.tokens);
+    const connector = isRoot ? "" : isLast ? "└── " : "├── ";
+    const name = node.children.length > 0 && !isRoot
+      ? `${node.name}/`
+      : node.name;
+    lines.push(`${display.padStart(maxWidth)}  ${prefix}${connector}${name}`);
+
+    const childPrefix = isRoot ? "" : prefix + (isLast ? "    " : "│   ");
+    for (let i = 0; i < node.children.length; i++) {
+      render(
+        node.children[i],
+        childPrefix,
+        i === node.children.length - 1,
+        false,
+      );
+    }
+  }
+
+  lines.push(`${"tokens".padStart(maxWidth)}  path`);
+  render(tree, "", true, true);
+
+  return lines.join("\n");
+}
+
 /** Apply sorting and top-N filtering, then format the result. */
 export function formatResult(
   result: TokenizeResult,
   options: FormatOptions = {},
 ): string {
-  const { json = false, top, sort = "tokens" } = options;
+  const { json = false, top, sort = "tokens", tree = false } = options;
+
+  // --tree ignores --top, --json, --sort
+  if (tree) {
+    return formatTree(result);
+  }
 
   // Sort
   const sorted = [...result.files];

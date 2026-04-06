@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import dedent from "string-dedent";
-import { formatResult, formatTable, formatTokenCount } from "./format.ts";
+import {
+  formatResult,
+  formatTable,
+  formatTokenCount,
+  formatTree,
+} from "./format.ts";
 import type { TokenizeResult } from "./tokenize.ts";
 
 const sampleResult: TokenizeResult = {
@@ -79,9 +84,79 @@ describe("formatResult", () => {
     `);
   });
 
+  it("formats as tree when tree option is set", () => {
+    expect(formatResult(sampleResult, { tree: true })).toBe(
+      formatTree(sampleResult),
+    );
+  });
+
+  it("tree ignores top, json, sort options", () => {
+    const treeOnly = formatResult(sampleResult, { tree: true });
+    const treeWithOthers = formatResult(sampleResult, {
+      tree: true,
+      json: true,
+      top: 1,
+      sort: "path",
+    });
+    expect(treeWithOthers).toBe(treeOnly);
+  });
+
   it("outputs JSON when json option is set", () => {
     const output = formatResult(sampleResult, { json: true });
     const parsed = JSON.parse(output);
     expect(parsed.encoding).toBe("o200k_base");
+  });
+});
+
+describe("formatTree", () => {
+  it("renders a directory tree with aggregated tokens", () => {
+    expect(formatTree(sampleResult)).toBe(dedent`
+      tokens  path
+       2.4 K  .
+       2.1 K  ├── src/
+       1.2 K  │   ├── index.ts
+         892  │   └── utils.ts
+         345  └── README.md
+    `);
+  });
+
+  it("renders flat files at root level", () => {
+    const result: TokenizeResult = {
+      encoding: "o200k_base",
+      files: [
+        { path: "a.ts", tokens: 100 },
+        { path: "b.ts", tokens: 200 },
+      ],
+      totalTokens: 300,
+      totalFiles: 2,
+    };
+    expect(formatTree(result)).toBe(dedent`
+      tokens  path
+         300  .
+         200  ├── b.ts
+         100  └── a.ts
+    `);
+  });
+
+  it("renders nested directories", () => {
+    const result: TokenizeResult = {
+      encoding: "o200k_base",
+      files: [
+        { path: "src/lib/util.ts", tokens: 500 },
+        { path: "src/main.ts", tokens: 300 },
+        { path: "README.md", tokens: 100 },
+      ],
+      totalTokens: 900,
+      totalFiles: 3,
+    };
+    expect(formatTree(result)).toBe(dedent`
+      tokens  path
+         900  .
+         800  ├── src/
+         500  │   ├── lib/
+         500  │   │   └── util.ts
+         300  │   └── main.ts
+         100  └── README.md
+    `);
   });
 });

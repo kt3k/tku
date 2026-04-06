@@ -16,6 +16,8 @@ Options:
       --json                  Output results as JSON
       --top <n>               Show only the top N files by token count
       --sort <field>          Sort by "tokens" or "path" (default: tokens)
+  -t, --tree                  Display results as a directory tree
+                              (ignores --top, --json, --sort)
   -h, --help                  Show this help message`);
 }
 
@@ -29,6 +31,7 @@ async function main() {
       json: { type: "boolean", default: false },
       top: { type: "string" },
       sort: { type: "string", default: "tokens" },
+      tree: { type: "boolean", short: "t", default: false },
       help: { type: "boolean", short: "h", default: false },
     },
     allowPositionals: true,
@@ -73,7 +76,12 @@ async function main() {
     });
     clearStatus();
 
-    const output = formatResult(result, { json: values.json, top, sort });
+    const output = formatResult(result, {
+      json: values.json,
+      top,
+      sort,
+      tree: values.tree,
+    });
     console.log(output);
   } catch (e: unknown) {
     console.error(e instanceof Error ? e.message : String(e));
