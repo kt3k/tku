@@ -31,6 +31,8 @@ npx @kt3k/tku [options] [path]
 | `--json`                  | Output results as JSON                               | false                |
 | `--top <n>`               | Show only the top N files by token count             | show all             |
 | `--sort <field>`          | Sort by `tokens` or `path`                           | `tokens`             |
+| `-t, --tree`              | Display results as a directory tree (ignores `--top`, `--json`, `--sort`) | false |
+| `--dirs`                  | Summarize by directory. With `--tree`, shows only directories. Without `--tree`, shows a flat directory summary table. | false |
 
 ### Examples
 
@@ -46,6 +48,15 @@ npx @kt3k/tku --json
 
 # Exclude test files
 npx @kt3k/tku --exclude "**/*.test.*" --exclude "**/fixtures/**"
+
+# Directory tree view
+npx @kt3k/tku --tree
+
+# Directory tree, directories only
+npx @kt3k/tku --tree --dirs
+
+# Flat directory summary
+npx @kt3k/tku --dirs
 ```
 
 ## Output
@@ -74,6 +85,34 @@ tokens  path
   "totalTokens": 2441,
   "totalFiles": 3
 }
+```
+
+### Tree (`--tree`)
+
+```
+tokens  path
+ 2.4 K  .
+ 2.1 K  ├── src/
+ 1.2 K  │   ├── index.ts
+   892  │   └── utils.ts
+   345  └── README.md
+```
+
+### Tree, directories only (`--tree --dirs`)
+
+```
+tokens  path
+ 2.4 K  .
+ 2.1 K  └── src/
+```
+
+### Directory summary (`--dirs`)
+
+```
+tokens  path
+ 2.1 K  src
+────────
+ 2.4 K  total (3 files)
 ```
 
 ## License
