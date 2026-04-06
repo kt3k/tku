@@ -18,7 +18,7 @@ Options:
       --sort <field>          Sort by "tokens" or "path" (default: tokens)
   -t, --tree                  Display results as a directory tree
                               (ignores --top, --json, --sort)
-      --dirs                  With --tree, show only directories
+      --dirs                  Summarize by directory (table or tree)
   -h, --help                  Show this help message`);
 }
 
