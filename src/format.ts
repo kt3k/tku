@@ -157,16 +157,19 @@ export function formatTree(
   return lines.join("\n");
 }
 
-/** Aggregate file tokens by top-level directory. Root files are excluded. */
+/** Aggregate file tokens by all directory levels. Root files are excluded. */
 export function summarizeByDir(
   result: TokenizeResult,
 ): TokenizeResult {
   const dirMap = new Map<string, number>();
   for (const file of result.files) {
-    const slashIdx = file.path.indexOf("/");
-    if (slashIdx === -1) continue; // skip root files
-    const dir = file.path.slice(0, slashIdx);
-    dirMap.set(dir, (dirMap.get(dir) ?? 0) + file.tokens);
+    const parts = file.path.split("/");
+    if (parts.length < 2) continue; // skip root files
+    // Add tokens to every ancestor directory
+    for (let i = 1; i < parts.length; i++) {
+      const dir = parts.slice(0, i).join("/");
+      dirMap.set(dir, (dirMap.get(dir) ?? 0) + file.tokens);
+    }
   }
   const files = [...dirMap.entries()].map(([path, tokens]) => ({
     path,

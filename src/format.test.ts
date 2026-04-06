@@ -127,10 +127,21 @@ describe("formatResult", () => {
 });
 
 describe("summarizeByDir", () => {
-  it("aggregates files by top-level directory, excluding root files", () => {
-    const result = summarizeByDir(sampleResult);
+  it("aggregates files by all directory levels", () => {
+    const input: TokenizeResult = {
+      encoding: "o200k_base",
+      files: [
+        { path: "src/lib/util.ts", tokens: 500 },
+        { path: "src/main.ts", tokens: 300 },
+        { path: "README.md", tokens: 100 },
+      ],
+      totalTokens: 900,
+      totalFiles: 3,
+    };
+    const result = summarizeByDir(input);
     expect(result.files).toEqual([
-      { path: "src", tokens: 2096 },
+      { path: "src", tokens: 800 },
+      { path: "src/lib", tokens: 500 },
     ]);
   });
 
