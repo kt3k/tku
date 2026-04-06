@@ -5,6 +5,7 @@ import {
   formatTable,
   formatTokenCount,
   formatTree,
+  summarizeByDir,
 } from "./format.ts";
 import type { TokenizeResult } from "./tokenize.ts";
 
@@ -101,10 +102,65 @@ describe("formatResult", () => {
     expect(treeWithOthers).toBe(treeOnly);
   });
 
+  it("summarizes by directory with dirs option", () => {
+    expect(formatResult(sampleResult, { dirs: true })).toBe(dedent`
+      tokens  path
+       2.1 K  src
+         345  README.md
+      ────────
+       2.4 K  total (3 files)
+    `);
+  });
+
+  it("dirs with top and sort works", () => {
+    expect(formatResult(sampleResult, { dirs: true, top: 1 })).toBe(dedent`
+      tokens  path
+       2.1 K  src
+              ... 1 more files
+      ────────
+       2.4 K  total (3 files)
+    `);
+  });
+
+  it("dirs with json outputs summarized JSON", () => {
+    const output = formatResult(sampleResult, { dirs: true, json: true });
+    const parsed = JSON.parse(output);
+    expect(parsed.files).toHaveLength(2);
+    expect(parsed.files.find((f: { path: string }) => f.path === "src").tokens)
+      .toBe(2096);
+  });
+
   it("outputs JSON when json option is set", () => {
     const output = formatResult(sampleResult, { json: true });
     const parsed = JSON.parse(output);
     expect(parsed.encoding).toBe("o200k_base");
+  });
+});
+
+describe("summarizeByDir", () => {
+  it("aggregates files by top-level directory", () => {
+    const result = summarizeByDir(sampleResult);
+    expect(result.files).toEqual([
+      { path: "src", tokens: 2096 },
+      { path: "README.md", tokens: 345 },
+    ]);
+  });
+
+  it("keeps root files as-is", () => {
+    const input: TokenizeResult = {
+      encoding: "o200k_base",
+      files: [
+        { path: "a.ts", tokens: 100 },
+        { path: "b.ts", tokens: 200 },
+      ],
+      totalTokens: 300,
+      totalFiles: 2,
+    };
+    const result = summarizeByDir(input);
+    expect(result.files).toEqual([
+      { path: "a.ts", tokens: 100 },
+      { path: "b.ts", tokens: 200 },
+    ]);
   });
 });
 

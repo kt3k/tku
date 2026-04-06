@@ -157,6 +157,26 @@ export function formatTree(
   return lines.join("\n");
 }
 
+/** Aggregate file tokens by top-level directory. Files at root are grouped as-is. */
+export function summarizeByDir(
+  result: TokenizeResult,
+): TokenizeResult {
+  const dirMap = new Map<string, number>();
+  for (const file of result.files) {
+    const slashIdx = file.path.indexOf("/");
+    const dir = slashIdx === -1 ? file.path : file.path.slice(0, slashIdx);
+    dirMap.set(dir, (dirMap.get(dir) ?? 0) + file.tokens);
+  }
+  const files = [...dirMap.entries()].map(([path, tokens]) => ({
+    path,
+    tokens,
+  }));
+  return {
+    ...result,
+    files,
+  };
+}
+
 /** Apply sorting and top-N filtering, then format the result. */
 export function formatResult(
   result: TokenizeResult,
@@ -170,8 +190,11 @@ export function formatResult(
     return formatTree(result, { dirs });
   }
 
+  // --dirs without --tree: summarize by directory, then apply normal formatting
+  const effective = dirs ? summarizeByDir(result) : result;
+
   // Sort
-  const sorted = [...result.files];
+  const sorted = [...effective.files];
   if (sort === "path") {
     sorted.sort((a, b) => a.path.localeCompare(b.path));
   } else {
@@ -183,7 +206,7 @@ export function formatResult(
   const omitted = sorted.length - filtered.length;
 
   const adjusted: TokenizeResult = {
-    ...result,
+    ...effective,
     files: filtered,
   };
 
