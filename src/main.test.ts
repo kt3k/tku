@@ -1,4 +1,4 @@
-import { assert, assertEquals, assertStringIncludes } from "jsr:@std/assert";
+import { assert, assertEquals, assertStringIncludes } from "@std/assert";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 

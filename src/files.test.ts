@@ -1,4 +1,4 @@
-import { assert, assertEquals, assertRejects } from "jsr:@std/assert";
+import { assert, assertEquals, assertRejects } from "@std/assert";
 import { isBinary, listFiles, listTextFiles } from "./files.ts";
 import { resolve } from "node:path";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";

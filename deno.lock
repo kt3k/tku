@@ -643,6 +643,9 @@
     }
   },
   "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@*"
+    ],
     "packageJson": {
       "dependencies": [
         "npm:@types/node@25",
