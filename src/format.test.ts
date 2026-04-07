@@ -93,7 +93,10 @@ Deno.test("formatResult - limits to top N files and shows omitted count", () => 
 });
 
 Deno.test("formatResult - formats as tree when tree option is set", () => {
-  assertEquals(formatResult(sampleResult, { tree: true }), formatTree(sampleResult));
+  assertEquals(
+    formatResult(sampleResult, { tree: true }),
+    formatTree(sampleResult),
+  );
 });
 
 Deno.test("formatResult - tree ignores top, json, sort options", () => {
