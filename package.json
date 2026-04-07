@@ -12,7 +12,7 @@
   "scripts": {
     "build": "deno bundle --external tiktoken --external picomatch -o dist/main.js src/main.ts && deno bundle --external tiktoken -o dist/tokenize-worker.js src/tokenize-worker.ts && chmod +x dist/main.js",
     "prepublishOnly": "npm run build",
-    "test": "vitest run"
+    "test": "npx deno-test"
   },
   "keywords": [],
   "author": "Yoshiya Hinosawa",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/node": "^25",
     "@types/picomatch": "^4.0.3",
+    "deno-test": "^1.0.1",
     "string-dedent": "^3",
     "vitest": "^3"
   }
